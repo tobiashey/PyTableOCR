@@ -3,3 +3,6 @@
 
 #PYTesseract
 https://pypi.org/project/pytesseract/
+
+#Tesseract OCR
+https://github.com/UB-Mannheim/tesseract/wiki
