@@ -8,3 +8,5 @@ https://pypi.org/project/pytesseract/
 #Tesseract OCR
 Installation required
 https://github.com/UB-Mannheim/tesseract/wiki
+
+https://tesseract-ocr.github.io/tessdoc/Home.html
