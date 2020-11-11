@@ -8,8 +8,8 @@ from pytesseract import Output
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 
-pytesRes = pytesseract.image_to_data(Image.open('images/Excel/ExcelTabelle.png'), output_type=Output.DATAFRAME)
-print(type(pytesRes))
+res = pytesseract.image_to_data(Image.open('images/Excel/ExcelTabelle.png'), output_type=Output.DATAFRAME)
+print(type(res))
 
 # image_to_string => String of text
 # image_to_boxes => position of chars

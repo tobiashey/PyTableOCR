@@ -10,3 +10,8 @@ Installation required
 https://github.com/UB-Mannheim/tesseract/wiki
 
 https://tesseract-ocr.github.io/tessdoc/Home.html
+
+
+
+# Sonst.
+https://nanonets.com/blog/ocr-with-tesseract/
