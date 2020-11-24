@@ -5,11 +5,10 @@ except ImportError:
 import pytesseract
 from pytesseract import Output
 
-
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
-
 res = pytesseract.image_to_data(Image.open('images/Excel/ExcelTabelle.png'), output_type=Output.DATAFRAME)
-print(type(res))
+res['mytext'] = res['text'].apply(lambda x: str(x))
+res = res.groupby(by=['level', 'page_num', 'block_num'])['mytext'].apply(' '.join)
+res.to_csv('test.csv', header=True)
 
 # image_to_string => String of text
 # image_to_boxes => position of chars
