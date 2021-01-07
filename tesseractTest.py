@@ -8,36 +8,12 @@ import pandas as pd
 import numpy as np
 import pytesseract
 from pytesseract import Output
-
-
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
-
-# res = pytesseract.image_to_data(Image.open('images/Excel/ExcelTabelle.png'), output_type=Output.DATAFRAME)
-# print(type(res))
 
 # image_to_string => String of text
 # image_to_boxes => position of chars
 # image_to_data => level, page_num, block_num, par_num, line_num, word_num, left, top, width, height, conf, text
 # image_to_osd => Some Data about the Image
-
-
-def get_intersect(a1, a2, b1, b2):
-
-    # Returns the point of intersection of the lines passing through a2,a1 and b2,b1.
-    # a1: [x, y] a point on the first line
-    # a2: [x, y] another point on the first line
-    # b1: [x, y] a point on the second line
-    # b2: [x, y] another point on the second line
-
-    s = np.vstack([a1, a2, b1, b2])  # s for stacked
-    h = np.hstack((s, np.ones((4, 1))))  # h for homogeneous
-    l1 = np.cross(h[0], h[1])  # get first line
-    l2 = np.cross(h[2], h[3])  # get second line
-    x, y, z = np.cross(l1, l2)  # point of intersection
-    if z != 0:  # lines are parallel
-        return int(x / z), int(y / z)
-    else:
-        return -1, -1   # if parallel return negative value
 
 
 def show_wait_destroy(winname, img):
@@ -190,7 +166,6 @@ def main(path):
     cv2.drawContours(lineImg, contours, -1, (0, 255, 0), 2)
     # show_wait_destroy('contours.jpg', lineImg)
 
-
     """--------Filter Contours-------"""
     # apply approx filter to find rectangles, remove the rest from contours (0.02 genauigkeit)
     filteredContours = []
@@ -309,8 +284,6 @@ def main(path):
     df.to_csv(path+'.csv', index=False, header=False)
 
 
-
 if __name__ == "__main__":
     # main("images/Excel/ExcelTabelle.png")
     main("images/Bundesliga.png")
-
