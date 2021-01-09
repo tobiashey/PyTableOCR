@@ -1,102 +1,116 @@
 ,,,,,,,
-,,"DHBW - Stuttgart / Studien,
+,,"DHBW - Stuttgart / Studien
 
-Sie haben 15 Themen ausgewahlt. Die Su
+sie haben 15 Themen ausgewahit. Die 5
 ","ang Wirtschaftsingenieurwesen: Studienarbeitsthemen TWIW/TW
 
-nme der angegebenen Prioritaten betragt 120.
+nme der angegebenen Priaritaten hetragt 120.
 ","E 2018, Septem!
 
-Alles 1.0.
-","er 2
-","20
-Ihre Wahl vo!
+ 
+","er2
+","120
+Ihre Wahl vo
 Themen in
 Spalte F
 ab Zeile 4:
+
+ 
 ",
-,,"Thema
-","Beschreibung des Themas durch Themensteller/in.
-","Betreuungsperson.
-",,"Heuft, Tobia:
+,,"Thema.
+","Beschreibune des Themas durch Themensteller/in.
+","Betreygunesperson
+",,"Heuft. Tobia
 ",
-,,"Entwicklung einer OCR-
+"ET:
+","13
+","Entwicklung einer OCR-
 Anwendung zur Extraktion
 tabellarischer Daten aus
 Screenshots
 ","   
 
-der Arbeit ist die Konzepti
+jel der Arbeit ist die Konzeptionierung sowie Programmierung einer schlanken
 OCR-Anwendung zur automatisierten Extraktion tabellarischer Daten aus
 Screenshots.
 
-Die Grundidee des Projektes ist, die Vorteile von OCR-Software fir die
-Flietexterkennung aus Bilddaten um die Dimension der Erkennung von
-strukturierten, tabellarischen Daten zu erweitern. Hierzu werden Ki-Methoden
-verwendet (Fokus: Character Recognition) und einschlagige
-Trainingsdatensets (e.g. MNIST) herangezogen so
-Anwendungsfall
+Die Grundidee des Projekte: . die Vorteile von OCR-Software flir die
+Fliefttexterkennung aus Bilddaten um die Dimension der Erkennung von
+strukturierten, tabellarischen Daten zu erweitern. Hierzu werden KI-Methoden
+verwendet (Fokus: Character Recognition} und einschlagige
+Trainingsdatensets (e.g. MNIST} herangezogen sowie auf den spezi
+Anwendungsfall hin adaptiert. Der/Die Studierende erarbeitet auf Ba
 Publikationen sowie technischen Dokumentationen die Basis fur die
-Konzeptionierung und Programmierung von KI-Systemen sowie GUIs. Hierbei
+Konzeptionierung und Programmierung von Kl-Systemen sowie GUIs. Hierbei
 werden gngige Methoden und Tools der Software-Entwicklung (V-Modell,
-Unit Tests, Versionierung via git) angewandt.
+Unit Tests, Versionierung via git} angewandt.
 
 Als Basis fur das Projekt kann ein bestehendes Projekt dienen, wie bspw.
-jenes:
-
-https://github.com/thepirat000/Snipping-Ocr
-
-C#/Python wiinschenswert.
-
- 
-
-    
-
- 
 
    
- 
- 
 
  
 
  
+
+chen
+
+   
+
  
+
+von
+
+ 
+
+ 
+
+1ub.com/thepirat000/Snipping-Ocr
+C#/Python wtinschenswert.
+
+   
 
 erkenntnisse
-
- 
 ","Herr Stanley Keller
 (Bachelor of
-Engineering)
+Engineering}
 ",,,
-"Er
-",,"Analysis of financial timeseries
+"oct:
+","13
+","Analysis of financial timeseries
 data utilizing the OpenCog Al
 Framework
 
  
 
  
-","Ziel der Arbeit ist die Konzeptionierung sowie Programmierung eines Analyse-
-Tools flir Zeitreihendaten basierend auf dem Al Framework OpenCog. Das
+"," 
+
+jerung sowie Programmierung eines Analyse-
+Tools ftir Zeitrethendaten basierend auf dem Al Framework OpenCog. Das
 Framework erlaubt die umfangreiche Vernetzung verschiedener Al
-Architekturen (CNN, RNN, Transformer etc.). Der/Die Studierende erarbeitet
+Architekturen (CNN, RNN, Transformer etc.}. Der/Die Studierende erarbeitet
 auf Basis von Publikationen sowie technischen Dokumentationen die Basis fir
-lie Konzeptionierung und Programmierung eines Analyse-Tools. Hierbei
-werden gngige Methoden und Tools der Software-Entwicklung (V-Modell,
-Unit Tests, Versionierung via git) angewandt. Zus&tzlich wird ein
-Systemverstndnis fiir komplexe mathematische Systeme sowie deren
-Interdependenzen geschaffen. AbschlieRend soll das entwickelte System im
+die Konzeptionierung und Programmierung eines Analyse-Tools. Hierbei
+werden gangige Methoden und Tools der Software-Entwicklung (V-Modell,
+Unit Tests, Versionierung via git} angewandt. Zusatalich wird ein
+
+ 
+
+ 
+
+ 
+
+Systemverstndnis fur komplexe mathematische Systeme sowie deren
+
+Interdependenzen geschatfen. Abschlieftend soll das entwickelte System im
 Kontext realer Daten vali
 Programmierkenntnisse in C++/Python wiinschenswert.
 
  
 
- 
-
-rt sowie bewertet werden.
+jert sowie hewertet werden.
 ","Herr Stanley Keller
 (Bachelor of
-Engineering)
+Engineering}
 ",,,
