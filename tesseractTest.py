@@ -7,11 +7,6 @@ import re
 import time
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 
-# image_to_string => String of text
-# image_to_boxes => position of chars
-# image_to_data => level, page_num, block_num, par_num, line_num, word_num, left, top, width, height, conf, text
-# image_to_osd => Some Data about the Image
-
 
 def show_wait_destroy(winname, img):
     cv2.imshow(winname, img)
@@ -22,7 +17,7 @@ def show_wait_destroy(winname, img):
 
 def hough_transform(img):
     """
-        -------------------Hough Transformation-------------------
+        -Hough Transformation-
 
         Hough Transformation Lines
         https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
@@ -76,10 +71,15 @@ def tesseract_ocr(img):
 
 def tesseract_ocr_mp(idx, img):
     """
-       -------------------PyTesseract OCR-------------------
+        -PyTesseract OCR-
 
-       Use the PyTesseract OCR Engine to get a String of Chars contained in a given Image
-       Remove unwanted String chars
+        image_to_string => String of text
+        image_to_boxes => position of chars
+        image_to_data => level, page_num, block_num, par_num, line_num, word_num, left, top, width, height, conf, text
+        image_to_osd => Some Data about the Image
+        
+        Use the PyTesseract OCR Engine to get a String of Chars contained in a given Image
+        Remove unwanted String chars
     """
     res = pytesseract.image_to_string(img)
 
@@ -91,7 +91,7 @@ def tesseract_ocr_mp(idx, img):
 def main(input_path, output_format="csv", output_path="", debug=False):
 
     """
-        -------------------Init-------------------
+        -Init-
 
         Initialize some images that will be needed for processing
         And Check some Variables
@@ -117,7 +117,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
         gray = src
 
     """
-        -------------------Isolate Lines from Image-------------------
+        -Isolate Lines from Image-
 
         Find Horizontal and Vertical structures in the Image
         The Strictures will be Isolated from the text to identify Rows and Columns
@@ -156,7 +156,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
         show_wait_destroy('Raw isolated lines.jpg', lineImg)
 
     """
-        -------------------Enhance Lines-------------------
+        -Enhance Lines-
 
         Enhance the found lines to draw a Table like Structure
         Hough Transformation is used
@@ -183,7 +183,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
         show_wait_destroy('Refined lines added.jpg', lineImg)
 
     """
-        -------------------Find Contours-> Cells-------------------
+        -Find Contours-> Cells-
         
         After Preprocessing the Line Image find the Contours of every Cell
         Will be used to find Cells, Rows and Columns
@@ -203,7 +203,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
         show_wait_destroy('Raw Contours.jpg', lineImg)
 
     """
-        -------------------Filter Contours-------------------
+        -Filter Contours-
         
         Used Filter:
         1. Filter for Cells (Rectangles) via Shape Approximation
@@ -229,7 +229,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
         show_wait_destroy('Filtered Contours.jpg', lineImg)
 
     """
-        -------------------Find Rows and Columns-------------------
+        -Find Rows and Columns-
 
         Find Rows and Columns of the table based on the found Contours
         Save every found Row/Column once in rowsRange/columnsRange Variable
@@ -296,7 +296,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
     show_wait_destroy('Computer Vision.jpg', paintedImg)
 
     """
-        -------------------Slice Image-------------------
+        -Slice Image-
         
         Slice the Original Image according to the Found Rows and Columns
         Every cell is represented as a single Image which will be processed by OCR    
@@ -352,7 +352,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
         imageList.append(slicedImage)
 
     """
-        -------------------Create empty Pandas DF-------------------
+        -Create empty Pandas DF-
 
         create an empty DataFrame with the calculated size
         
@@ -363,7 +363,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
     df = pd.DataFrame(index=row, columns=col)   # create DF
 
     """
-        -------------------MP OCR every Images-------------------
+        -MP OCR every Images-
 
         Multi Processes all sliced Images with the OCR engine
         Writes the results to the DataFrame 
@@ -396,7 +396,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
     print((stop - start), "s for MP OCR")
 
     """
-        -------------------OCR every Images-------------------
+        -OCR every Images-
 
         Same as above but without the Multiprocessing => at least 3 times slower
         
@@ -416,7 +416,7 @@ def main(input_path, output_format="csv", output_path="", debug=False):
     # df.to_csv(path+'.csv', index=False, header=False)
 
     """
-        -------------------Export-------------------
+        -Export-
         
         Possible Outputs:
         0. "cvs" => DEFAULT creates new Sheet in CSV format on a given Path 
