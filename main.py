@@ -6,6 +6,8 @@ import os
 import pyautogui
 import snipingTool
 import tableOCR
+import multiprocessing as mp
+import pkg_resources.py2_warn
 
 
 class Application(tk.Frame):
@@ -53,21 +55,23 @@ class Application(tk.Frame):
     """
     def select_from_screen(self):
         root.withdraw()
-        fileName = snipingTool.create_screenshot()
+        img = snipingTool.create_screenshot()
+        # fileName = snipingTool.create_screenshot()
+        #
+        # if fileName == -1 or fileName == "" or fileName is None:
+        #     self.exit_application()
+        # else:
+        #     cwd = (os.getcwd().replace('\\', '/')) + "/snips/" + fileName + ".png"
 
-        if fileName == -1 or fileName == "" or fileName is None:
-            self.exit_application()
-        else:
-            cwd = (os.getcwd().replace('\\', '/')) + "/snips/" + fileName + ".png"
+        root.config(cursor="wait")
 
-            root.config(cursor="wait")
+        df = tableOCR.table_to_ocr("", img=img,  debug=False)
 
-            df = tableOCR.table_to_ocr(cwd, debug=False)
+        # os.remove(cwd)
+        root.config(cursor="")
 
-            root.config(cursor="")
-
-            self.export_window(df)
-            print("Take Screenshot")
+        self.export_window(df)
+        print("Take Screenshot")
 
     def select_existing_img(self):
         root.withdraw()
@@ -141,7 +145,10 @@ class Application(tk.Frame):
 
         # create Frame with Size: Width x Height at Pos X + Y
         self.master.geometry(str(window_width) + "x" + str(window_height) + "+" + str(x) + "+" + str(y))
-        self.master.iconbitmap('icon.ico')
+        try:
+            self.master.iconbitmap('icon.ico')
+        except:
+            pass
         self.master.bind("<KeyRelease>", self.keyup)
         self.master.title("Table OCR")  # set Window Title
         self.master.resizable(False, False)  # not resizable
@@ -183,7 +190,11 @@ class Application(tk.Frame):
         # Window itself
         windowWidth = root.winfo_width()
 
-        self.export.iconbitmap('icon.ico')
+        try:
+            self.export.iconbitmap('icon.ico')
+        except:
+            pass
+
         self.export.bind("<KeyRelease>", self.keyup)
         self.export.title("Table OCR Exportieren...")  # set Window Title
         self.export.resizable(False, False)  # not resizable
@@ -215,6 +226,9 @@ class Application(tk.Frame):
 
 
 if __name__ == '__main__':
+    if sys.platform.startswith('win'):
+        # On Windows calling this function is necessary.
+        mp.freeze_support()
     root = Tk()
     app = Application(master=root)
     root.mainloop()

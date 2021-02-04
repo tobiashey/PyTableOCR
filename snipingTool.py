@@ -9,13 +9,14 @@ def create_screenshot():
     snip = Screenshot(root)
     snip.create_screen_canvas()
     root.mainloop()
-    return snip.fileName
+    return snip.img
 
 
 class Screenshot:
     def __init__(self, master):
 
-        self.fileName = None
+        self.img = None
+        # self.fileName = None
         self.master = master
         self.rect = None
         self.x = self.y = 0
@@ -32,9 +33,10 @@ class Screenshot:
 
     def take_bounded_screenshot(self, x1, y1, x2, y2):
         im = pyautogui.screenshot(region=(x1, y1, x2, y2))
-        x = datetime.datetime.now()
-        self.fileName = x.strftime("%f")
-        im.save("snips/" + self.fileName + ".png")
+        self.img = im
+        # x = datetime.datetime.now()
+        # self.fileName = x.strftime("%f")
+        # im.save("snips/" + self.fileName + ".png")
 
     def create_screen_canvas(self):
         self.master_screen.deiconify()
@@ -82,7 +84,7 @@ class Screenshot:
     def keyup(self, event):
         if event.keycode == 27:                     # escape key
             self.exit_screenshot_mode()           # exit app
-            self.fileName = -1
+            self.img = None
 
     def exit_screenshot_mode(self):
         print("Screenshot Mode exit")

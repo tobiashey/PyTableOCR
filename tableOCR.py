@@ -88,7 +88,7 @@ def tesseract_ocr_mp(idx, img):
     return [idx, res]
 
 
-def table_to_ocr(input_path, debug=False):
+def table_to_ocr(input_path, img=None, debug=False):
 
     """
         -Init-
@@ -101,14 +101,19 @@ def table_to_ocr(input_path, debug=False):
         src -> will be the source Processed Image on which all processes will be based on
 
     """
-    origImg = cv2.imread(input_path)
-    paintedImg = cv2.imread(input_path)
-    src = cv2.imread(input_path, cv2.IMREAD_COLOR)
+    if img is None:
+        origImg = cv2.imread(input_path)
+        paintedImg = cv2.imread(input_path)
+        src = cv2.imread(input_path, cv2.IMREAD_COLOR)
 
-    # check for correct path
-    if src is None:
-        print('Error opening image: ' + input_path)
-        return -1
+        # check for correct path
+        if src is None:
+            print('Error opening image: ' + input_path)
+            return -1
+    else:
+        origImg = np.array(img)
+        paintedImg = np.array(img)
+        src = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
 
     # check if img is already grey
     try:
@@ -143,7 +148,7 @@ def table_to_ocr(input_path, debug=False):
 
     # Specify size on vertical axis
     rows = vertical.shape[0]
-    verticalSize = rows // 50
+    verticalSize = rows // 30
     # Create structure element for extracting vertical lines through morphology operations
     verticalStructure = cv2.getStructuringElement(cv2.MORPH_RECT, (1, verticalSize))
     # Apply morphology operations
@@ -151,6 +156,9 @@ def table_to_ocr(input_path, debug=False):
     vertical = cv2.dilate(vertical, verticalStructure)
 
     lineImg = cv2.add(horizontal, vertical)
+
+    show_wait_destroy('horizontal.jpg', horizontal)
+    show_wait_destroy('vertical.jpg', vertical)
 
     if debug:
         show_wait_destroy('Raw isolated lines.jpg', lineImg)
@@ -175,6 +183,9 @@ def table_to_ocr(input_path, debug=False):
 
     # transform vertical lines
     vertical = hough_transform(vertical)
+
+    show_wait_destroy('horizontalHough.jpg', horizontal)
+    show_wait_destroy('verticalHough.jpg', vertical)
 
     # add vert and horiz lines as inverses
     lineImg = 255 - (255 - horizontal + (255 - vertical))
@@ -371,12 +382,13 @@ def table_to_ocr(input_path, debug=False):
     """
 
     start = time.time()     # timer for Performance Measurement
-
+    print("Ocr begin")
     # result list has [index, result] to keep track of processed images
     resultList = []
     pool = mp.Pool(mp.cpu_count())
     resultList.append(pool.starmap(tesseract_ocr_mp, enumerate(imageList)))
-
+    pool.close()
+    print("Ocr done")
     # results are out of Order, sort them by the Index
     resultList.sort(key=lambda x: x[0])
 
@@ -447,5 +459,5 @@ def table_to_ocr(input_path, debug=False):
 
 
 # if __name__ == "__main__":
-#     table_to_ocr(input_path="images/Excel/ReFiExcel.png", debug=False)
+#     table_to_ocr(input_path="images/Excel/ExcelTabelle.png", debug=True)
 #     # main("images/Bundesliga.png", True)
