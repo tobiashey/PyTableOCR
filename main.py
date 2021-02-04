@@ -21,7 +21,7 @@ class Application(tk.Frame):
         """
         # set Window Width and Height
         windowWidth = 350  # width
-        windowHeight = 75  # height, for every button 25 px
+        windowHeight = 78  # height, for every button 26 px
 
         # Main Window
         self.master = master
@@ -30,11 +30,12 @@ class Application(tk.Frame):
         self.quit_btn = tk.Button(self.master)
 
         # Export Window
-        self.export = tk.Toplevel()
-        self.export_csv_btn = tk.Button(self.export)
-        self.export_excel_btn = tk.Button(self.export)
-        self.export_clip_btn = tk.Button(self.export)
-        self.export.withdraw()
+        self.export_csv_btn = tk.Button(self.master)
+        self.export_excel_btn = tk.Button(self.master)
+        self.export_clip_btn = tk.Button(self.master)
+
+        # Error Window
+        self.try_again = tk.Button(self.master)
 
         # start the main Window
         self.main_window(windowWidth, windowHeight)
@@ -48,9 +49,14 @@ class Application(tk.Frame):
 
     def exit_application(self):
         print("Application exit")
-        self.export.quit()
+        # self.export.quit()
         root.quit()
         root.destroy()
+
+    def error_handler(self, msg):
+        print("An Error occurred, please try again: "+msg)
+        self.error_window(msg)
+
 
     """
        ----------Main Window Functions----------
@@ -66,9 +72,10 @@ class Application(tk.Frame):
         #     cwd = (os.getcwd().replace('\\', '/')) + "/snips/" + fileName + ".png"
 
         root.config(cursor="wait")
-
-        df = tableOCR.table_to_ocr("", img=img,  debug=False)
-
+        try:
+            df = tableOCR.table_to_ocr("", img=img,  debug=False)
+        except:
+            self.error_handler("TableOCR Error")
         # os.remove(cwd)
         root.config(cursor="")
 
@@ -84,11 +91,14 @@ class Application(tk.Frame):
         else:
             root.config(cursor="wait")
 
-            df = tableOCR.table_to_ocr(filePath, debug=False)
+            try:
+                df = tableOCR.table_to_ocr(filePath, debug=False)
 
-            root.config(cursor="")
-            self.export_window(df)
-            print("Use Existing File")
+                root.config(cursor="")
+                self.export_window(df)
+                print("Use Existing File")
+            except:
+                self.error_handler("TableOCR Error")
 
     """
        ----------Export Window Functions----------
@@ -131,6 +141,17 @@ class Application(tk.Frame):
         self.exit_application()
 
     """--------------------"""
+    def withdraw_buttons(self):
+        """
+        Withdraws every buttons -> Clearing master window
+        """
+        self.take_snip_btn.pack_forget()
+        self.take_img_btn.pack_forget()
+        self.quit_btn.pack_forget()
+        self.export_csv_btn.pack_forget()
+        self.export_excel_btn.pack_forget()
+        self.export_clip_btn.pack_forget()
+        self.try_again.pack_forget()
 
     def main_window(self, window_width, window_height):
         """
@@ -144,6 +165,7 @@ class Application(tk.Frame):
         # Window itself
         # position window at current Cursor position
         x, y = pyautogui.position()  # get Cursor position
+        self.withdraw_buttons()
 
         # create Frame with Size: Width x Height at Pos X + Y
         self.master.geometry(str(window_width) + "x" + str(window_height) + "+" + str(x) + "+" + str(y))
@@ -177,7 +199,9 @@ class Application(tk.Frame):
         self.quit_btn["anchor"] = "w"
         self.quit_btn.pack()
 
+        self.master.deiconify()
         self.master.focus()
+        root.update()
 
     def export_window(self, df):
         """
@@ -191,16 +215,17 @@ class Application(tk.Frame):
         """
         # Window itself
         windowWidth = root.winfo_width()
+        self.withdraw_buttons()
 
-        try:
-            self.export.iconbitmap('icon.ico')
-        except:
-            pass
+        # try:
+        #     self.master.iconbitmap('icon.ico')
+        # except:
+        #     pass
 
-        self.export.bind("<KeyRelease>", self.keyup)
-        self.export.title("Table OCR Exportieren...")  # set Window Title
-        self.export.resizable(False, False)  # not resizable
-        self.export.geometry(root.winfo_geometry())
+        self.master.bind("<KeyRelease>", self.keyup)
+        self.master.title("Table OCR Exportieren...")  # set Window Title
+        self.master.resizable(False, False)  # not resizable
+        # self.master.geometry(root.winfo_geometry())
         self.pack()
 
         # create Buttons
@@ -222,8 +247,52 @@ class Application(tk.Frame):
         self.export_clip_btn.config(width=windowWidth)
         self.export_clip_btn.pack()
 
-        self.export.deiconify()
-        self.export.focus()
+        self.master.deiconify()
+        self.master.focus()
+        root.update()
+
+    def error_window(self, msg):
+        """
+            ----------Error Window Conten----------
+
+            Possible Outputs:
+            0. "Erneut Versuchen" => opens first window again
+            1. "Schließen"          application exit
+
+        """
+        # Window itself
+        windowWidth = root.winfo_width()
+        windowHeight = root.winfo_height()
+        self.withdraw_buttons()
+
+        # try:
+        #     self.master.iconbitmap('icon.ico')
+        # except:
+        #     pass
+
+        self.master.bind("<KeyRelease>", self.keyup)
+        self.master.title("Error: "+msg)  # set Window Title
+        self.master.resizable(False, False)  # not resizable
+        # self.master.geometry(root.winfo_geometry())
+        self.pack()
+
+        # create Buttons
+        self.try_again["text"] = "Erneut versuchen"
+        self.try_again["command"] = lambda: self.main_window(windowWidth, windowHeight)
+        self.try_again["anchor"] = "w"
+        self.try_again.config(width=windowWidth)
+        self.try_again.pack()
+
+        self.quit_btn["text"] = "Schließen"
+        self.quit_btn["fg"] = "red"
+        self.quit_btn["command"] = self.master.destroy
+        self.quit_btn["anchor"] = "w"
+        self.quit_btn.config(width=windowWidth)
+        self.quit_btn["anchor"] = "w"
+        self.quit_btn.pack()
+
+        self.master.deiconify()
+        self.master.focus()
         root.update()
 
 

@@ -173,6 +173,7 @@ def table_to_ocr(input_path, img=None, debug=False):
         
     """
     # transform horizontal lines 2 times with flipped image for accuracy
+
     horizontal1 = hough_transform(horizontal)
     # flip and second go
     horizontal2 = cv2.rotate(horizontal, cv2.ROTATE_180)
