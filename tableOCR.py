@@ -305,7 +305,8 @@ def table_to_ocr(input_path, img=None, debug=False):
         index += 1       # hold track of index of item from filteredContours List
 
     # Visual Representation of all found Contours, Rows and Columns with their Centroids
-    show_wait_destroy('Computer Vision.jpg', paintedImg)
+    if debug:
+        show_wait_destroy('Computer Vision.jpg', paintedImg)
 
     """
         -Slice Image-
