@@ -35,7 +35,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="build.tools" />
   </component>
   <component name="RunManager" selected="Python.main (1)">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -201,7 +201,7 @@
       <workItem from="1612095823484" duration="9757000" />
       <workItem from="1612198237914" duration="287000" />
       <workItem from="1612378624343" duration="2298000" />
-      <workItem from="1612433335068" duration="4675000" />
+      <workItem from="1612433335068" duration="8326000" />
     </task>
     <servers />
   </component>

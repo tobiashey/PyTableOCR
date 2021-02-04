@@ -157,10 +157,10 @@ def table_to_ocr(input_path, img=None, debug=False):
 
     lineImg = cv2.add(horizontal, vertical)
 
-    show_wait_destroy('horizontal.jpg', horizontal)
-    show_wait_destroy('vertical.jpg', vertical)
-
     if debug:
+        show_wait_destroy('horizontal.jpg', horizontal)
+        show_wait_destroy('vertical.jpg', vertical)
+
         show_wait_destroy('Raw isolated lines.jpg', lineImg)
 
     """
@@ -183,9 +183,9 @@ def table_to_ocr(input_path, img=None, debug=False):
 
     # transform vertical lines
     vertical = hough_transform(vertical)
-
-    show_wait_destroy('horizontalHough.jpg', horizontal)
-    show_wait_destroy('verticalHough.jpg', vertical)
+    if debug:
+        show_wait_destroy('horizontalHough.jpg', horizontal)
+        show_wait_destroy('verticalHough.jpg', vertical)
 
     # add vert and horiz lines as inverses
     lineImg = 255 - (255 - horizontal + (255 - vertical))

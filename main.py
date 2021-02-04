@@ -7,6 +7,7 @@ import pyautogui
 import snipingTool
 import tableOCR
 import multiprocessing as mp
+import _version
 import pkg_resources.py2_warn
 
 
@@ -47,8 +48,9 @@ class Application(tk.Frame):
 
     def exit_application(self):
         print("Application exit")
-        self.master.quit()
-        self.master.destroy()
+        self.export.quit()
+        root.quit()
+        root.destroy()
 
     """
        ----------Main Window Functions----------
@@ -150,7 +152,7 @@ class Application(tk.Frame):
         except:
             pass
         self.master.bind("<KeyRelease>", self.keyup)
-        self.master.title("Table OCR")  # set Window Title
+        self.master.title("Table OCR "+_version.version)  # set Window Title
         self.master.resizable(False, False)  # not resizable
         self.pack()  # display
 
@@ -220,9 +222,9 @@ class Application(tk.Frame):
         self.export_clip_btn.config(width=windowWidth)
         self.export_clip_btn.pack()
 
-        root.update()
         self.export.deiconify()
         self.export.focus()
+        root.update()
 
 
 if __name__ == '__main__':
@@ -232,3 +234,4 @@ if __name__ == '__main__':
     root = Tk()
     app = Application(master=root)
     root.mainloop()
+    root.quit()
