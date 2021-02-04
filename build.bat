@@ -10,7 +10,6 @@ set PYTHONOPTIMIZE=1 && PyInstaller --clean ^
 	--name="TableOCR" ^
 	--icon="icon.ico" ^
 	--noconfirm ^
-	--noconsole ^
 	--add-data "icon.ico;." ^
 	--onedir main.py
 

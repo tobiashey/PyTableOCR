@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="bd1cf624-1b18-47b4-91eb-91df7af36cf9" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -201,7 +204,7 @@
       <workItem from="1612095823484" duration="9757000" />
       <workItem from="1612198237914" duration="287000" />
       <workItem from="1612378624343" duration="2298000" />
-      <workItem from="1612433335068" duration="8326000" />
+      <workItem from="1612433335068" duration="8920000" />
     </task>
     <servers />
   </component>
@@ -212,10 +215,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605127045045">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612450137350">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1605127045045" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612450137350" />
     <state x="736" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605124305871">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -256,10 +259,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610235345908" />
-    <state x="453" y="289" key="SettingsEditor" timestamp="1610212352282">
+    <state x="453" y="289" key="SettingsEditor" timestamp="1612450109724">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="453" y="289" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610212352282" />
+    <state x="453" y="289" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1612450109724" />
     <state x="91" y="74" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1612102809271">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
