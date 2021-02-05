@@ -11,7 +11,10 @@ https://github.com/UB-Mannheim/tesseract/wiki
 
 https://tesseract-ocr.github.io/tessdoc/Home.html
 
-
+# Advanced Installer
+ Very kindly supported by Advanced Installer 
+ -> Creation of the Installer with all requierments
+ https://www.advancedinstaller.com/
 
 # Sonst.
 https://nanonets.com/blog/ocr-with-tesseract/
