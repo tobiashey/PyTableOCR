@@ -3,6 +3,8 @@ build/
 installer/TableOCR-cache/
 installer/TableOCR.aip
 installer/required/
+installer/Cert/
 images/Excel/
 .idea/
+.vs/
 __pycache__/
