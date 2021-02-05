@@ -16,6 +16,6 @@ set PYTHONOPTIMIZE=1 && PyInstaller --clean ^
 
 @RD /S /Q dist
 @RD /S /Q build
-@DEL main.spec
+@DEL TableOCR.spec
 echo ###Finished###
 pause

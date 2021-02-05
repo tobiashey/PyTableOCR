@@ -1,2 +1,8 @@
 dist/
+build/
 installer/TableOCR-cache/
+installer/TableOCR.aip
+installer/required/
+images/Excel/
+.idea/
+__pycache__/

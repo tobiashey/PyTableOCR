@@ -1614,6 +1614,7 @@
       <change beforePath="$PROJECT_DIR$/TableOCR/tcl/tzdata/Europe/Vatican" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/TableOCR/tcl/tzdata/Europe/Vienna" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/_version.py" beforeDir="false" afterPath="$PROJECT_DIR$/_version.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.bat" beforeDir="false" afterPath="$PROJECT_DIR$/build.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tableOCR.py" beforeDir="false" afterPath="$PROJECT_DIR$/tableOCR.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1819,7 +1820,7 @@
       <workItem from="1612198237914" duration="287000" />
       <workItem from="1612378624343" duration="2298000" />
       <workItem from="1612433335068" duration="8920000" />
-      <workItem from="1612474363306" duration="71000" />
+      <workItem from="1612474363306" duration="722000" />
     </task>
     <servers />
   </component>
