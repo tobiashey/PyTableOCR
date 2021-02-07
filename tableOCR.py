@@ -34,7 +34,7 @@ def hough_transform(img):
     whiteImage = 255 * np.ones(shape=[height, width, 3], dtype=np.uint8)
 
     # actual hugh translation
-    lines = cv2.HoughLines(img, 1, np.pi / 360, 200)
+    lines = cv2.HoughLines(img, 1, np.pi / 90, 150)
 
     # Calculate and paint the found lines
     for line in lines:
@@ -85,6 +85,12 @@ def tesseract_ocr_mp(idx, img):
 
     # filter some nasty text stuff out
     res = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', res)
+
+    # remove tabstops and newLine at beginning/end of res,
+    res = res.rstrip()
+    res = res.lstrip()
+    res = res.replace('\t', '')
+
     return [idx, res]
 
 
@@ -184,14 +190,13 @@ def table_to_ocr(input_path, img=None, debug=True):
 
     # transform vertical lines
     vertical = hough_transform(vertical)
-    # if debug:
-    #     show_wait_destroy('horizontalHough.jpg', horizontal)
-    #     show_wait_destroy('verticalHough.jpg', vertical)
 
     # add vert and horiz lines as inverses
     lineImg = 255 - (255 - horizontal + (255 - vertical))
 
     if debug:
+        show_wait_destroy('verticalHough.jpg', vertical)
+        # show_wait_destroy('horizontalHough.jpg', horizontal)
         show_wait_destroy('Refined lines added.jpg', lineImg)
 
     """
@@ -359,8 +364,6 @@ def table_to_ocr(input_path, img=None, debug=True):
         # correct Point coordinates for line height/width
         px -= 1
         py -= 1
-
-        print(y1,py, x1,px)
 
         # Step 4: slice the Image at calculated coordinates
         if y1 != py and x1 != px:
