@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
+import traceback
 import subprocess
 import os
 import pyautogui
@@ -9,7 +10,11 @@ import tableOCR
 import multiprocessing as mp
 import _version
 import pkg_resources.py2_warn
-
+"""
+Known Bugs:
+- Window size on devices with an other resulution
+- Clipboard to ecxel not Visible
+"""
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -63,7 +68,11 @@ class Application(tk.Frame):
     """
     def select_from_screen(self):
         root.withdraw()
+
         img = snipingTool.create_screenshot()
+        if img is None:
+            self.exit_application()
+
         # fileName = snipingTool.create_screenshot()
         #
         # if fileName == -1 or fileName == "" or fileName is None:
@@ -73,13 +82,12 @@ class Application(tk.Frame):
 
         root.config(cursor="wait")
         try:
-            df = tableOCR.table_to_ocr("", img=img,  debug=False)
-        except:
-            self.error_handler("TableOCR Error")
+            df = tableOCR.table_to_ocr("", img=img)
+            root.config(cursor="")
+            self.export_window(df)
+        except Exception as e:
+            self.error_handler(str(e))
         # os.remove(cwd)
-        root.config(cursor="")
-
-        self.export_window(df)
         print("Take Screenshot")
 
     def select_existing_img(self):
@@ -92,13 +100,13 @@ class Application(tk.Frame):
             root.config(cursor="wait")
 
             try:
-                df = tableOCR.table_to_ocr(filePath, debug=False)
+                df = tableOCR.table_to_ocr(filePath)
 
                 root.config(cursor="")
                 self.export_window(df)
                 print("Use Existing File")
-            except:
-                self.error_handler("TableOCR Error")
+            except Exception as e:
+                self.error_handler(str(e))
 
     """
        ----------Export Window Functions----------

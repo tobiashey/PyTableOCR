@@ -88,7 +88,7 @@ def tesseract_ocr_mp(idx, img):
     return [idx, res]
 
 
-def table_to_ocr(input_path, img=None, debug=False):
+def table_to_ocr(input_path, img=None, debug=True):
 
     """
         -Init-
@@ -158,8 +158,8 @@ def table_to_ocr(input_path, img=None, debug=False):
     lineImg = cv2.add(horizontal, vertical)
 
     if debug:
-        show_wait_destroy('horizontal.jpg', horizontal)
-        show_wait_destroy('vertical.jpg', vertical)
+        # show_wait_destroy('horizontal.jpg', horizontal)
+        # show_wait_destroy('vertical.jpg', vertical)
 
         show_wait_destroy('Raw isolated lines.jpg', lineImg)
 
@@ -184,9 +184,9 @@ def table_to_ocr(input_path, img=None, debug=False):
 
     # transform vertical lines
     vertical = hough_transform(vertical)
-    if debug:
-        show_wait_destroy('horizontalHough.jpg', horizontal)
-        show_wait_destroy('verticalHough.jpg', vertical)
+    # if debug:
+    #     show_wait_destroy('horizontalHough.jpg', horizontal)
+    #     show_wait_destroy('verticalHough.jpg', vertical)
 
     # add vert and horiz lines as inverses
     lineImg = 255 - (255 - horizontal + (255 - vertical))
@@ -211,8 +211,8 @@ def table_to_ocr(input_path, img=None, debug=False):
 
     # Visual Representation
     cv2.drawContours(lineImg, contours, -1, (0, 255, 0), 2)
-    if debug:
-        show_wait_destroy('Raw Contours.jpg', lineImg)
+    # if debug:
+    #     show_wait_destroy('Raw Contours.jpg', lineImg)
 
     """
         -Filter Contours-
@@ -237,8 +237,8 @@ def table_to_ocr(input_path, img=None, debug=False):
     # Visual Representation
     cv2.drawContours(lineImg, filteredContours, -1, (255, 0, 0), 2)
     cv2.drawContours(paintedImg, filteredContours, -1, (255, 0, 0), 2)
-    if debug:
-        show_wait_destroy('Filtered Contours.jpg', lineImg)
+    # if debug:
+    #     show_wait_destroy('Filtered Contours.jpg', lineImg)
 
     """
         -Find Rows and Columns-
@@ -360,9 +360,12 @@ def table_to_ocr(input_path, img=None, debug=False):
         px -= 1
         py -= 1
 
+        print(y1,py, x1,px)
+
         # Step 4: slice the Image at calculated coordinates
-        slicedImage = origImg[y1:py, x1:px].copy()
-        imageList.append(slicedImage)
+        if y1 != py and x1 != px:
+            slicedImage = origImg[y1:py, x1:px].copy()
+            imageList.append(slicedImage)
 
     """
         -Create empty Pandas DF-
