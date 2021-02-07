@@ -163,11 +163,11 @@ def table_to_ocr(input_path, img=None, debug=True):
 
     lineImg = cv2.add(horizontal, vertical)
 
-    if debug:
-        # show_wait_destroy('horizontal.jpg', horizontal)
-        # show_wait_destroy('vertical.jpg', vertical)
-
-        show_wait_destroy('Raw isolated lines.jpg', lineImg)
+    # if debug:
+    #     # show_wait_destroy('horizontal.jpg', horizontal)
+    #     # show_wait_destroy('vertical.jpg', vertical)
+    #
+    #     show_wait_destroy('Raw isolated lines.jpg', lineImg)
 
     """
         -Enhance Lines-
@@ -194,10 +194,10 @@ def table_to_ocr(input_path, img=None, debug=True):
     # add vert and horiz lines as inverses
     lineImg = 255 - (255 - horizontal + (255 - vertical))
 
-    if debug:
-        show_wait_destroy('verticalHough.jpg', vertical)
+    # if debug:
+        # show_wait_destroy('verticalHough.jpg', vertical)
         # show_wait_destroy('horizontalHough.jpg', horizontal)
-        show_wait_destroy('Refined lines added.jpg', lineImg)
+        # show_wait_destroy('Refined lines added.jpg', lineImg)
 
     """
         -Find Contours-> Cells-
