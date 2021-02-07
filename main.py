@@ -172,11 +172,14 @@ class Application(tk.Frame):
         """
         # Window itself
         # position window at current Cursor position
-        x, y = pyautogui.position()  # get Cursor position
+        # x, y = pyautogui.position()  # get Cursor position
+        x, y = pyautogui.size()  # set Position of window botoom right
+        x -= 50     # Padding to right screen edge
+        y -= 100    # Padding to bottom screen edge
         self.withdraw_buttons()
 
         # create Frame with Size: Width x Height at Pos X + Y
-        self.master.geometry(str(window_width) + "x" + str(window_height) + "+" + str(x) + "+" + str(y))
+        self.master.geometry(str(window_width) + "x" + str(window_height) + "+" + str(x-window_width) + "+" + str(y-window_height))
         try:
             self.master.iconbitmap('icon.ico')
         except:
