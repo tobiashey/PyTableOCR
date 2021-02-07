@@ -81,7 +81,7 @@ def tesseract_ocr_mp(idx, img):
         Use the PyTesseract OCR Engine to get a String of Chars contained in a given Image
         Remove unwanted String chars
     """
-    res = pytesseract.image_to_string(img)
+    res = pytesseract.image_to_string(img, config="--psm 6")
 
     # filter some nasty text stuff out
     res = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', res)
@@ -329,8 +329,8 @@ def table_to_ocr(input_path, img=None, debug=True):
     """
 
     # Step 1: preprocess the Image
-    origImg = cv2.cvtColor(origImg, cv2.COLOR_BGR2GRAY)                             # grayscale
-    ret, origImg = cv2.threshold(np.array(origImg), 125, 255, cv2.THRESH_BINARY)    # threshold
+    # origImg = cv2.cvtColor(origImg, cv2.COLOR_BGR2GRAY)                             # grayscale
+    # ret, origImg = cv2.threshold(np.array(origImg), 125, 255, cv2.THRESH_BINARY)    # threshold
 
     # Step 2: create empty List
     imageList = []
