@@ -34,7 +34,7 @@ def hough_transform(img):
     whiteImage = 255 * np.ones(shape=[height, width, 3], dtype=np.uint8)
 
     # actual hugh translation
-    lines = cv2.HoughLines(img, 1, np.pi / 90, 150)
+    lines = cv2.HoughLines(img, 1, np.pi / 90, 120)
 
     # Calculate and paint the found lines
     for line in lines:
@@ -329,8 +329,8 @@ def table_to_ocr(input_path, img=None, debug=True):
     """
 
     # Step 1: preprocess the Image
-    # origImg = cv2.cvtColor(origImg, cv2.COLOR_BGR2GRAY)                             # grayscale
-    # ret, origImg = cv2.threshold(np.array(origImg), 125, 255, cv2.THRESH_BINARY)    # threshold
+    origImg = cv2.cvtColor(origImg, cv2.COLOR_BGR2GRAY)                             # grayscale
+    ret, origImg = cv2.threshold(np.array(origImg), 125, 255, cv2.THRESH_BINARY)    # threshold
 
     # Step 2: create empty List
     imageList = []
