@@ -34,7 +34,7 @@ def hough_transform(img):
     whiteImage = 255 * np.ones(shape=[height, width, 3], dtype=np.uint8)
 
     # actual hugh translation
-    lines = cv2.HoughLines(img, 1, np.pi / 90, 120)
+    lines = cv2.HoughLines(img, 1, np.pi / 180, 50)
 
     # Calculate and paint the found lines
     for line in lines:
@@ -82,7 +82,6 @@ def tesseract_ocr_mp(idx, img):
         Remove unwanted String chars
     """
     res = pytesseract.image_to_string(img, config="--psm 6")
-
     # filter some nasty text stuff out
     res = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', res)
 
@@ -92,6 +91,16 @@ def tesseract_ocr_mp(idx, img):
     res = res.replace('\t', '')
 
     return [idx, res]
+
+
+def percent_of(sum, length, width):
+    percent = sum/255/length
+    if percent >= 0.2:
+        # return 255 * np.ones(shape=[width], dtype=np.uint8)
+        return 255
+    else:
+        # return np.zeros(shape=[width], dtype=np.uint8)
+        return 0
 
 
 def table_to_ocr(input_path, img=None, debug=True):
@@ -152,6 +161,8 @@ def table_to_ocr(input_path, img=None, debug=True):
     horizontal = cv2.erode(horizontal, horizontalStructure)
     horizontal = cv2.dilate(horizontal, horizontalStructure)
 
+    horizontalStr = horizontal
+
     # Specify size on vertical axis
     rows = vertical.shape[0]
     verticalSize = rows // 30
@@ -164,10 +175,34 @@ def table_to_ocr(input_path, img=None, debug=True):
     lineImg = cv2.add(horizontal, vertical)
 
     # if debug:
-    #     # show_wait_destroy('horizontal.jpg', horizontal)
-    #     # show_wait_destroy('vertical.jpg', vertical)
     #
-    #     show_wait_destroy('Raw isolated lines.jpg', lineImg)
+    #     show_wait_destroy('vertical.jpg', vertical)
+    #     show_wait_destroy('horizontal.jpg', horizontal)
+
+    # show_wait_destroy('Raw isolated lines.jpg', lineImg)
+
+    rows, cols = horizontal.shape
+
+    # go trough every line and determine if white is more than 50%, if not below 20% -> kick line out
+    horizontal_mean = (horizontal.sum(axis=1)/255/rows)    # sums every Row and calcs mean
+    for i in range(len(horizontal_mean)):
+        if horizontal_mean[i] <= 0.25:
+            horizontal[i] = 0
+
+    vertical_mean = (vertical.sum(axis=0)/255/cols)    # sums every Col and calcs mean
+    vertical = np.swapaxes(vertical, 0, 1)
+    for i in range(len(vertical_mean)):
+        if vertical_mean[i] <= 0.25:
+            vertical[i] = 0
+    vertical = np.swapaxes(vertical, 0, 1)
+
+    # show_wait_destroy('vertical.jpg', vertical)
+    # show_wait_destroy('horizontal.jpg', horizontal)
+
+    # horizontal = np_Percent_of(horizontal_sums, len(horizontal_sums), cols)
+    # horizontal = horizontal.reshape(-1, 1)
+    # horizontal = np.broadcast_to(horizontal, (rows, cols))
+
 
     """
         -Enhance Lines-
@@ -189,15 +224,21 @@ def table_to_ocr(input_path, img=None, debug=True):
     horizontal = 255 - (255-horizontal1 + (255-horizontal2))
 
     # transform vertical lines
-    vertical = hough_transform(vertical)
+    vertical1 = hough_transform(vertical)
+    # flip and second go
+    vertical2 = cv2.rotate(vertical, cv2.ROTATE_180)
+    vertical2 = hough_transform(vertical2)
+    vertical2 = cv2.rotate(vertical2, cv2.ROTATE_180)
+    # add both and invert
+    vertical = 255 - (255-vertical1 + (255-vertical2))
 
     # add vert and horiz lines as inverses
     lineImg = 255 - (255 - horizontal + (255 - vertical))
 
     # if debug:
-        # show_wait_destroy('verticalHough.jpg', vertical)
-        # show_wait_destroy('horizontalHough.jpg', horizontal)
-        # show_wait_destroy('Refined lines added.jpg', lineImg)
+    #     # show_wait_destroy('verticalHough.jpg', vertical)
+    #     # show_wait_destroy('horizontalHough.jpg', horizontal)
+    #     # show_wait_destroy('Refined lines added.jpg', lineImg)
 
     """
         -Find Contours-> Cells-
