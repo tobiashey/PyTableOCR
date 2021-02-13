@@ -1,1 +1,1 @@
-version = "2.4Debug" 
+version = "2.5" 
