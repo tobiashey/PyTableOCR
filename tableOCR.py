@@ -34,7 +34,7 @@ def hough_transform(img):
     whiteImage = 255 * np.ones(shape=[height, width, 3], dtype=np.uint8)
 
     # actual hugh translation
-    lines = cv2.HoughLines(img, 1, np.pi / 180, 50)
+    lines = cv2.HoughLines(img, 1, np.pi / 180, 100)
 
     # Calculate and paint the found lines
     for line in lines:
@@ -81,6 +81,7 @@ def tesseract_ocr_mp(idx, img):
         Use the PyTesseract OCR Engine to get a String of Chars contained in a given Image
         Remove unwanted String chars
     """
+    # res = pytesseract.image_to_string(img, config="--psm 6 -c tessedit_char_whitelist=0123456789,.-$%€")
     res = pytesseract.image_to_string(img, config="--psm 6")
     # filter some nasty text stuff out
     res = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', res)
@@ -103,7 +104,7 @@ def percent_of(sum, length, width):
         return 0
 
 
-def table_to_ocr(input_path, img=None, debug=True):
+def table_to_ocr(input_path, img=None, debug=False):
 
     """
         -Init-
@@ -370,8 +371,17 @@ def table_to_ocr(input_path, img=None, debug=True):
     """
 
     # Step 1: preprocess the Image
+
+    # gray = cv2.bitwise_not(gray)
+
     origImg = cv2.cvtColor(origImg, cv2.COLOR_BGR2GRAY)                             # grayscale
-    ret, origImg = cv2.threshold(np.array(origImg), 125, 255, cv2.THRESH_BINARY)    # threshold
+
+    # ret, origImg = cv2.threshold(np.array(origImg), 125, 255, cv2.THRESH_BINARY)    # threshold
+    # ret, origImg = cv2.threshold(origImg, 125, 255, cv2.THRESH_BINARY)
+    # ret, origImg = cv2.threshold(origImg, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # origImg = cv2.adaptiveThreshold(origImg, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY, 11, 2)
+
+    # show_wait_destroy("", origImg)
 
     # Step 2: create empty List
     imageList = []
@@ -403,8 +413,8 @@ def table_to_ocr(input_path, img=None, debug=True):
             py = y4
 
         # correct Point coordinates for line height/width
-        px -= 1
-        py -= 1
+        # px -= 1
+        # py -= 1
 
         # Step 4: slice the Image at calculated coordinates
         if y1 != py and x1 != px:
