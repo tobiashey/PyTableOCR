@@ -86,6 +86,7 @@ class Application(tk.Frame):
             root.config(cursor="")
             self.export_window(df)
         except Exception as e:
+            root.config(cursor="")
             self.error_handler(str(e))
         # os.remove(cwd)
         print("Take Screenshot")
@@ -106,6 +107,7 @@ class Application(tk.Frame):
                 self.export_window(df)
                 print("Use Existing File")
             except Exception as e:
+                root.config(cursor="")
                 self.error_handler(str(e))
 
     """
@@ -212,6 +214,7 @@ class Application(tk.Frame):
 
         self.master.deiconify()
         self.master.focus()
+        self.master.lift()
         root.update()
 
     def export_window(self, df):
@@ -260,6 +263,7 @@ class Application(tk.Frame):
 
         self.master.deiconify()
         self.master.focus()
+        self.master.lift()
         root.update()
 
     def error_window(self, msg):
@@ -305,6 +309,7 @@ class Application(tk.Frame):
         self.master.deiconify()
         self.master.focus()
         root.update()
+        self.master.lift()
 
 
 if __name__ == '__main__':
