@@ -62,16 +62,21 @@ def hough_transform(img):
 
 
 def tesseract_ocr(img):
-    res = pytesseract.image_to_string(img)
+    res = pytesseract.image_to_string(img, config="--psm 6")
     # print(res)
     # filter some nasty text stuff out
     res = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', res)
+
+    res = res.rstrip()
+    res = res.lstrip()
+    res = res.replace('\t', '')
+
     return res
 
 
 def tesseract_ocr_mp(idx, img):
     """
-        -PyTesseract OCR-
+        -PyTesseract OCR for Multiprocessing-
 
         image_to_string => String of text
         image_to_boxes => position of chars
@@ -92,16 +97,6 @@ def tesseract_ocr_mp(idx, img):
     res = res.replace('\t', '')
 
     return [idx, res]
-
-
-def percent_of(sum, length, width):
-    percent = sum/255/length
-    if percent >= 0.2:
-        # return 255 * np.ones(shape=[width], dtype=np.uint8)
-        return 255
-    else:
-        # return np.zeros(shape=[width], dtype=np.uint8)
-        return 0
 
 
 def table_to_ocr(input_path, img=None, debug=False):
@@ -162,8 +157,6 @@ def table_to_ocr(input_path, img=None, debug=False):
     horizontal = cv2.erode(horizontal, horizontalStructure)
     horizontal = cv2.dilate(horizontal, horizontalStructure)
 
-    horizontalStr = horizontal
-
     # Specify size on vertical axis
     rows = vertical.shape[0]
     verticalSize = rows // 30
@@ -173,7 +166,6 @@ def table_to_ocr(input_path, img=None, debug=False):
     vertical = cv2.erode(vertical, verticalStructure)
     vertical = cv2.dilate(vertical, verticalStructure)
 
-    lineImg = cv2.add(horizontal, vertical)
 
     # if debug:
     #
@@ -184,7 +176,7 @@ def table_to_ocr(input_path, img=None, debug=False):
 
     rows, cols = horizontal.shape
 
-    # go trough every line and determine if white is more than 50%, if not below 20% -> kick line out
+    # go trough every line and determine if white is below 25% -> kick line out
     horizontal_mean = (horizontal.sum(axis=1)/255/rows)    # sums every Row and calcs mean
     for i in range(len(horizontal_mean)):
         if horizontal_mean[i] <= 0.25:
@@ -196,13 +188,6 @@ def table_to_ocr(input_path, img=None, debug=False):
         if vertical_mean[i] <= 0.25:
             vertical[i] = 0
     vertical = np.swapaxes(vertical, 0, 1)
-
-    # show_wait_destroy('vertical.jpg', vertical)
-    # show_wait_destroy('horizontal.jpg', horizontal)
-
-    # horizontal = np_Percent_of(horizontal_sums, len(horizontal_sums), cols)
-    # horizontal = horizontal.reshape(-1, 1)
-    # horizontal = np.broadcast_to(horizontal, (rows, cols))
 
 
     """
@@ -250,11 +235,11 @@ def table_to_ocr(input_path, img=None, debug=False):
     """
 
     # Preprocess Line Image
-    lineImg = cv2.cvtColor(lineImg, cv2.COLOR_BGR2GRAY)     # grayscale
-    ret, lineImg = cv2.threshold(lineImg, 127, 255, 0)      # threshold
+    lineImgContours = cv2.cvtColor(lineImg, cv2.COLOR_BGR2GRAY)     # grayscale
+    ret, lineImgContours = cv2.threshold(lineImgContours, 127, 255, 0)      # threshold
 
     # Find Contours
-    contours, hierarchy = cv2.findContours(lineImg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(lineImgContours, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # Visual Representation
     cv2.drawContours(lineImg, contours, -1, (0, 255, 0), 2)
@@ -284,6 +269,7 @@ def table_to_ocr(input_path, img=None, debug=False):
     # Visual Representation
     cv2.drawContours(lineImg, filteredContours, -1, (255, 0, 0), 2)
     cv2.drawContours(paintedImg, filteredContours, -1, (255, 0, 0), 2)
+
     # if debug:
     #     show_wait_destroy('Filtered Contours.jpg', lineImg)
 
@@ -473,6 +459,7 @@ def table_to_ocr(input_path, img=None, debug=False):
         
     """
     # start = time.time()
+    # print("Ocr begin")
     #
     # for i in range(len(imageList)):
     #     r = len(rowRange)-1-rows[i][2]      # coordinate of row
@@ -480,11 +467,10 @@ def table_to_ocr(input_path, img=None, debug=False):
     #
     #     df.iat[r, c] = tesseract_ocr(imageList[i])
     #
+    # print("Ocr done")
     # stop = time.time()
     # print((stop-start), "s for OCR")
-    #
-    # print(df)
-    # df.to_csv(path+'.csv', index=False, header=False)
+
 
     """
         -Export-
@@ -520,3 +506,4 @@ def table_to_ocr(input_path, img=None, debug=False):
 # if __name__ == "__main__":
 #     table_to_ocr(input_path="images/Excel/ExcelTabelle.png", debug=True)
 #     # main("images/Bundesliga.png", True)
+table_to_ocr("C:/Users/Heuft/Code/PyTableOCR/images/BspTabelle.png")
