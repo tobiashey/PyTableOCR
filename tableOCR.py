@@ -166,7 +166,6 @@ def table_to_ocr(input_path, img=None, debug=False):
     vertical = cv2.erode(vertical, verticalStructure)
     vertical = cv2.dilate(vertical, verticalStructure)
 
-
     # if debug:
     #
     #     show_wait_destroy('vertical.jpg', vertical)
@@ -182,8 +181,9 @@ def table_to_ocr(input_path, img=None, debug=False):
         if horizontal_mean[i] <= 0.25:
             horizontal[i] = 0
 
-    vertical_mean = (vertical.sum(axis=0)/255/cols)    # sums every Col and calcs mean
     vertical = np.swapaxes(vertical, 0, 1)
+    rows, cols = vertical.shape
+    vertical_mean = (vertical.sum(axis=1)/255/cols)    # sums every Col and calcs mean
     for i in range(len(vertical_mean)):
         if vertical_mean[i] <= 0.25:
             vertical[i] = 0
@@ -506,4 +506,3 @@ def table_to_ocr(input_path, img=None, debug=False):
 # if __name__ == "__main__":
 #     table_to_ocr(input_path="images/Excel/ExcelTabelle.png", debug=True)
 #     # main("images/Bundesliga.png", True)
-table_to_ocr("C:/Users/Heuft/Code/PyTableOCR/images/BspTabelle.png")
