@@ -1,7 +1,6 @@
 # About
 Executable for Character Regonition in tables, that exports to the Clipboard or a sheet file.
-This was reasearched for a paper.
-PDF TODO
+This was reasearched for a paper. [Heuft-Tobias-T3100.pdf](https://github.com/tobiashey/PyTableOCR/files/6382530/Heuft-Tobias-T3100.pdf)
 
 # Install
 - Installer, installs Tesseract if its not detected
